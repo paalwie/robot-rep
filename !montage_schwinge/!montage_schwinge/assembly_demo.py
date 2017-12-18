@@ -155,15 +155,15 @@ def load_robot_parts():
     
     return robot_parts
 
-
+""" 
 def robot_follows_marker(robot, marker):
-    """
+    """ """ 
         Das Werkzeug folgt der Position des Markers.
 
         Args:
             robot: Roboter-Objekt
             marker: Objekt, dem das Werkzeug des Roboters folgt.
-    """
+    """  """ 
     robot_pos = robot.get_position()
     marker_pos = marker.getPosition()
     p = [marker_pos[0] - robot_pos[0],
@@ -178,6 +178,27 @@ def robot_follows_marker(robot, marker):
         ], np.float32)
     
     print ZF
+
+    robot.set_tool(ZF)
+""" 
+
+def robot_follows_marker(robot, marker):
+    
+    i = 0.001
+
+    robot_pos = robot.get_position()
+    ZF = np.array([
+        [0, 1, 0, robot_pos[0] + i],
+        [1, 0, 0, robot_pos[1] + i],
+        [0, 0, -1, robot_pos[2] + i],
+        [0, 0, 0, 1]
+        ], np.float32)
+    
+    new_pos = [robot_pos[0] + i, robot_pos[1] + i, robot_pos[2] + i]
+    
+    robot.set_position(new_pos)
+    print ZF
+    print i
 
     robot.set_tool(ZF)
 
@@ -246,8 +267,8 @@ vizconnect.go(r'vizconnect_keyboard.py')
 
 # Globale Variablen initialisieren
 part_index = 1
-# Distanz, bei der das Bauteil "einrastet"
-max_dist = 0.4
+# Distanz, bei der das Bauteil "einrastet" (original bei 0.4)
+max_dist = 10.0
 
 print 'XXXXX'
 
