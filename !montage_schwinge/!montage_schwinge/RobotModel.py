@@ -107,4 +107,23 @@ class LBR_Model(RobotModel):
         axis_index = [1, 2, 4, 5, 6, 7]
         self.set_axis_angle(2, 0)
         for i, a_i in enumerate(axis_index):
-            self.set_axis_angle(a_i, math.degrees(q[0][i]))
+            
+            #new
+            #Liste von Werten
+            # 90: Gerade oben
+            # 80: bisschen (10 Grad?) nach rechts versetzt
+            # 45: irgendwo unten
+            
+            j = 90
+            
+            # self.set_axis_angle(a_i, math.degrees(q[0][i])) -> normal
+            self.set_axis_angle(a_i, j)
+            
+            #new
+            print "#####################"
+            print a_i
+            print "#####################"
+            print j
+            print (q, err)
+            print "#####################"
+            

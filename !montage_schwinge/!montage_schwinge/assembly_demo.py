@@ -155,15 +155,15 @@ def load_robot_parts():
     
     return robot_parts
 
-""" 
+ 
 def robot_follows_marker(robot, marker):
-    """ """ 
+    """ 
         Das Werkzeug folgt der Position des Markers.
 
         Args:
             robot: Roboter-Objekt
             marker: Objekt, dem das Werkzeug des Roboters folgt.
-    """  """ 
+    """  
     robot_pos = robot.get_position()
     marker_pos = marker.getPosition()
     p = [marker_pos[0] - robot_pos[0],
@@ -201,7 +201,7 @@ def robot_follows_marker(robot, marker):
     print i
 
     robot.set_tool(ZF)
-
+""" 
 
 def on_release(e):
     """
