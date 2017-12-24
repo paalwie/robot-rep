@@ -38,9 +38,11 @@ import vizshape
 import vizconnect
 import tools
 import vizact
+import viztask
 
 import RobotModel
 import random
+import time
 
 robot = None
 robot_parts = []
@@ -154,16 +156,21 @@ def load_robot_parts():
        
     
     return robot_parts
-
+    
+#new
+def read_file():
+    file = open("testdatei.txt", "r") 
+    print file.read() 
  
+"""
 def robot_follows_marker(robot, marker):
-    """ 
+    """ """
         Das Werkzeug folgt der Position des Markers.
 
         Args:
             robot: Roboter-Objekt
             marker: Objekt, dem das Werkzeug des Roboters folgt.
-    """  
+    """  """
     robot_pos = robot.get_position()
     marker_pos = marker.getPosition()
     p = [marker_pos[0] - robot_pos[0],
@@ -178,14 +185,39 @@ def robot_follows_marker(robot, marker):
         ], np.float32)
     
     print ZF
-
+       
     robot.set_tool(ZF)
 """ 
+
+#test
+def MyTask():
+    
+    while True:
+        
+        yield viztask.waitTime(3)
+        
+        print '3 second has passed'
+
+#new
+def robot_new_pos(y):
+    
+    ZF = np.array([
+        [0, 1, 0,  y[0]],
+        [1, 0, 0, y[2]],
+        [0, 0, -1, y[1]],
+        [0, 0, 0, 1]
+        ], np.float32)
+    
+    print ZF
+       
+    robot.set_tool(ZF)
+    
 
 def robot_follows_marker(robot, marker):
     
     i = 0.001
 
+    """
     robot_pos = robot.get_position()
     ZF = np.array([
         [0, 1, 0, robot_pos[0] + i],
@@ -193,15 +225,55 @@ def robot_follows_marker(robot, marker):
         [0, 0, -1, robot_pos[2] + i],
         [0, 0, 0, 1]
         ], np.float32)
+    """
     
-    new_pos = [robot_pos[0] + i, robot_pos[1] + i, robot_pos[2] + i]
+    fh = open( "testdatei.txt" );
+    x = []
+    for line in fh.readlines():
+        y = [value for value in line.split()]
+        x.append( y )
+        print x
+        
+        print y[0]
+        print y[1]
+        print y[2]
+        
+        robot_new_pos(y)
+        
+        """
+        ZF = np.array([
+        [0, 1, 0,  y[0]],
+        [1, 0, 0, y[2]],
+        [0, 0, -1, y[1]],
+        [0, 0, 0, 1]
+        ], np.float32)
     
-    robot.set_position(new_pos)
-    print ZF
-    print i
+        print ZF
+       
+        robot.set_tool(ZF)
+        """
+        viztask.schedule( MyTask() )
+        
+        del x[0]
+    print x
+    
+    
+    """
+    with open('testdatei.txt') as f:
+        for line in f:
+            print line
+            time.sleep(1) 
+            if 'str' in line:
+                break
+    """
+    
+    #new_pos = [robot_pos[0] + i, robot_pos[1] + i, robot_pos[2] + i]
+    
+    #robot.set_position(new_pos)
+    #print ZF
 
-    robot.set_tool(ZF)
-""" 
+    #robot.set_tool(ZF)
+
 
 def on_release(e):
     """
@@ -246,7 +318,7 @@ def on_release(e):
             vizact.ontimer(1./float(viz.getOption(
                            'viz.max_frame_rate')),
                            robot_follows_marker, robot, ball)
-
+            
 # Einstellungen
 CYCLES_PER_SEC = 0.05
 viz.setMultiSample(4)
